@@ -1,0 +1,2 @@
+# Novosti
+News Scraper
