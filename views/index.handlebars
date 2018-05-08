@@ -7,8 +7,12 @@
     <div class="articles">
         {{#each article}}
         <div class="article-data">
-            <p>People: {{title}}</p>
-            <p>Link: {{link}}</p>
+            <p>Rank: {{rank}}</p>
+            <p>Title: {{title}}</p>
+            <p>Link: {{url}}</p>
+            <p>Points: {{points}}</p>
+            <p>Username: {{username}}</p>
+            <p>Comments: {{comments}}</p>
             <button id="edit-button" data-id="{{_id}}">Add Note</button>
             <button id="delete-button" data-id="{{_id}}">Remove Article</button>
         </div>
