@@ -6,7 +6,7 @@ var mongoose = require("mongoose");
 var axios = require("axios");
 var cheerio = require("cheerio");
 var db = require("./models");
-var PORT = process.env.PORT || 8080;
+var PORT = process.env.PORT || 3000;
 var app = express();
 
 app.use(logger("dev"));
@@ -38,26 +38,17 @@ app.get("/", function (req, res) {
 
 app.post("/scraper", function (req, res) {
 
-    axios.get("https://news.ycombinator.com").then(function (response) {
+    axios.get("https://www.nytimes.com/").then(function (response) {
         var $ = cheerio.load(response.data);
 
-        $("span.comhead").each(function(i, element) {
-            var a = $(this).prev();
-            var rank = a.parent().parent().text();
-            var title = a.text();
-            var url = a.attr('href');
-            var subtext = a.parent().parent().next().children('.subtext').children();
-            var points = $(subtext).eq(0).text();
-            var username = $(subtext).eq(1).text();
-            var comments = $(subtext).eq(2).text();
-            var newDoc = {
-              "rank": parseInt(rank),
-              "title": title,
-              "url": url,
-              "points": parseInt(points),
-              "username": username,
-              "comments": parseInt(comments)
-            };
+        $("h2.story-heading").each(function (i, element) {
+            var result = {};
+            result.title = $(this)
+                .children("a")
+                .text();
+            result.link = $(this)
+                .children("a")
+                .attr("href");
 
             console.log(result);
             db.Article.create(result)
